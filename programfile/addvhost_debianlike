@@ -1,0 +1,19 @@
+#!/bin/bash
+
+### Function declarions ###
+
+# Check if the user have root privileges
+user=$(whoami)
+if [ ! $user = root ]; then
+	echo You must have root privileges to perform the operation
+	exit
+fi
+
+# Check if the first argument was provided
+if [ -z $1 ]; then
+	echo Please, provides the first argument to be the virtualhost name.
+	exit
+fi
+
+echo '127.0.0.1	' $1
+
