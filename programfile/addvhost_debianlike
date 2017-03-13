@@ -1,11 +1,16 @@
 #!/bin/bash
 
 ### Function declarions ###
+addvhost() {
+	echo '<VirtualHost *:80>' >> /etc/apache2/sites-available/ $1.conf
+	echo '	ServerName ' $1 >> /etc/apache2/sites-available/ $1.conf
+	echo '	<Directory />' >> /etc/apache2/sites-available/ $1.conf
+}
 
 # Check if the user have root privileges
 user=$(whoami)
 if [ ! $user = root ]; then
-	echo You must have root privileges to perform the operation
+	echo You must have root privileges to perform the operation.
 	exit
 fi
 
@@ -15,5 +20,10 @@ if [ -z $1 ]; then
 	exit
 fi
 
-echo '127.0.0.1	' $1
+# Check if the second argument was provided. Needs to be the virtualhost path
+if [ -z $1 ]; then
+	echo Please, provides the second argument to be the site path.
+fi
+
+echo '127.0.0.1	' $1 >> /etc/hosts
 
